@@ -14,14 +14,32 @@ def eIlinstep(yn,tn,f,df,h):
     bot=1-h*df(yn,tn+h)
     yn1=top/bot
     return yn1
-def nonlinE(yn,tn1,h):
+def nonlinE(yn,tn1,h,f):
 	#solve the differential equation you have for
 	# the equation that satisfies yn+1 equaling some function of x and t
     c=yn
     def function(x):
-        return x+c+np.e**(x-tn1)
-    root,info=brentq(function,c,2*tn1)
-    return yn1
+        return -x+c+np.e**(x-tn1)
+    n=np.linspace(-100,100,100)
+    a=0
+    b=0
+    for elem in range(0,len(n)-1):
+        A=function(n[elem])
+        B=function(n[elem+1])
+        if(A<0 and B>0):
+            a=n[elem]
+            b=n[elem+1]
+        elif(A>0 and B<0):
+            a=n[elem]
+            b=n[elem+1]
+    try:
+        root=brentq(function,a,b)
+    except:
+        print("an error occured  will use euler for value \n")
+        print("c= "+str(c))
+        print("tn1= "+str(tn1))
+        root=eulerstep(yn,tn1,f,h)
+    return root
 def trapezoidalE(yn,tn1,tn,h):
 	#solve the differential equation you have for yn+1
 	A= yn+(h/2.0)*2*((1+tn1)**3)*(np.e**(-tn1))
@@ -55,13 +73,13 @@ def eulerE(y0,a,b,f,h):
         end+=h
     return t,y
 
-def eulerI(y0,a,b,h):
+def eulerI(y0,a,b,h,f):
     y=[y0]
     t=[a,a+h]
     start=a
     end=a
     while(end<b):
-        newy=nonlinE(y[-1],t[-1],h)
+        newy=nonlinE(y[-1],t[-1],h,f)
         y.append(newy)
         t.append(t[-1]+h)
         end+=h
@@ -101,7 +119,7 @@ def rk2(y0,a,b,f):
         t.append(t[-1]+h)
         end+=h
     return t,y
-def rk4(y0,a,b,f):
+def rk4(y0,a,b,h,f):
     y=[y0]
     t=[a]
     start=a

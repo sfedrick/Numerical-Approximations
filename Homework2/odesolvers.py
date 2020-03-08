@@ -25,8 +25,8 @@ def trapezoidalE(yn,tn1,tn,h):
 	yn1=top/bottom
 	return yn1
 def rk2step(yn,tn,f,h):
-    y1=yn +(h/2)*f(yn,tn)
-    yn1=yn+h*(y1,tn+tn*1/2)
+    y1=yn+(h/2)*f(yn,tn)
+    yn1=yn+h*f(y1,tn+tn*1/2)
     return yn1
 def rk4step(yn,tn,f,h):
     a=1/2.0
@@ -35,7 +35,7 @@ def rk4step(yn,tn,f,h):
     k3=h*f(yn+a*k2,tn+h/2.0)
     k4=h*f(yn+a*k3,tn+h)
     yn1=yn+(1/6)*k1+(1/3)*(k2+k3)+(1/6)*k4
-
+    return yn1
 def eulerE(y0,a,b,f,h):
     y=[y0]
     t=[a]
@@ -72,7 +72,7 @@ def eulerT(y0,a,b,h):
         end+=h
     del t[-1]
     return t,y
-def rk2(y0,a,b,f):
+def rk2(y0,a,b,f,h):
     y=[y0]
     t=[a]
     start=a
@@ -83,7 +83,7 @@ def rk2(y0,a,b,f):
         t.append(t[-1]+h)
         end+=h
     return t,y
-def rk4(y0,a,b,f):
+def rk4(y0,a,b,f,h):
     y=[y0]
     t=[a]
     start=a
