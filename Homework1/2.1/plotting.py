@@ -47,7 +47,7 @@ for i in range(0,4):
     firstorder.append((((y1-x1)**2)**0.5)/x1)
     secondorder.append((((y2-x2)**2)**0.5)/x2)
     fourthorder.append((((y4-x4)**2)**0.5)/x4)
-    
+
     row1=[-5.0/(2*h[i]),2/h[i],1/(2*h[i])]
     row2=[3.0/h[i],0,0]
     row3=[5.0/(2*h[i]),-2/h[i],-1/(2*h[i])]
